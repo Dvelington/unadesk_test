@@ -21,7 +21,9 @@ app-footer{
   flex-direction: row;
 
   .content{
-    flex: 1 1 auto;
+    flex:1;
+    min-width: 0;
+    overflow: hidden;
   }
 }
 

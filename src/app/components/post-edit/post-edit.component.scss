@@ -1,6 +1,13 @@
+:host{
+  height: 100%;
+  display: flex;
+}
+
 .post-form{
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .error-text{
@@ -15,6 +22,10 @@
   border-color: rgba(229, 57, 53, 0.4);
   outline: 2px solid rgba(229, 57, 53, 0.4);
   outline-offset: 0px;
+}
+
+.textarea{
+  max-width: 100%;
 }
 
 .form-action{

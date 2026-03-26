@@ -15,7 +15,8 @@
     }
   </div>
   <label for="body">Post message</label>
-  <textarea [formField]="postForm.body" rows="10" [ngClass]="{'error-state':bodyErrorState()}"></textarea>
+  <textarea class="textarea" [formField]="postForm.body" rows="10"
+    [ngClass]="{'error-state':bodyErrorState()}"></textarea>
   <div class="error-text">
     @if(bodyErrorState()){
     @for (error of postForm.body().errors(); track error.kind) {

@@ -1,0 +1,18 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-button{
+  width: fit-content;
+}
+
+.post-view{
+  overflow: hidden;
+}
+
+.post-body{
+  overflow: auto;
+  height: 100%;
+}
