@@ -1,4 +1,5 @@
 @if(post()){
+<button [routerLink]="['/edit', post()?.id]">Edit</button>
 <div class="post-view">
   <h1>{{post()?.title}}</h1>
   <p>{{post()?.body}}</p>

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   OnInit,
   signal,
 } from '@angular/core';
@@ -10,6 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../../share/post.interface';
 import { NgStyle, NgClass } from '@angular/common';
 import { PostService } from '../../services/post.service';
+
+const initialFormState = {
+  id: Date.now(),
+  title: '',
+  body: '',
+};
 
 @Component({
   selector: 'app-post-edit',
@@ -22,11 +29,7 @@ export class PostEditComponent implements OnInit {
   id = signal('');
   isEdit = computed(() => this.id() !== '');
 
-  postModel = signal<IPost>({
-    id: Date.now(),
-    title: '',
-    body: '',
-  });
+  postModel = signal<IPost>(initialFormState);
 
   postForm = form(this.postModel, (scheme) => {
     required(scheme.title, { message: 'Title is required' });
@@ -48,7 +51,15 @@ export class PostEditComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _postService: PostService,
-  ) {}
+  ) {
+    effect(() => {
+      if (this.isEdit()) {
+        const p = this._postService.getPostById(this.id());
+        if (!p) return;
+        this.postModel.set(p);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this._route.snapshot.paramMap.get('id');
@@ -57,6 +68,12 @@ export class PostEditComponent implements OnInit {
 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    this._postService.addPost(this.postModel());
+    console.log(this.isEdit());
+    if (!this.isEdit()) {
+      this._postService.addPost(this.postModel());
+      this.postForm().reset({ ...initialFormState, id: Date.now() });
+    } else {
+      this._postService.editPost(this.postModel());
+    }
   }
 }

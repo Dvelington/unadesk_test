@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'view',
+    loadComponent: () =>
+      import('./components/empty-state/empty-state.component').then(
+        (c) => c.EmptyStateComponent,
+      ),
+  },
+  {
     path: 'edit/:id',
     loadComponent: () =>
       import('./components/post-edit/post-edit.component').then(

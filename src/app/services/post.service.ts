@@ -7,7 +7,7 @@ export const POSTS_LOCAL_STORAGE_KEY = 'posts';
   providedIn: 'root',
 })
 export class PostService {
-  private _posts = signal<IPost[]>([]);
+  private readonly _posts = signal<IPost[]>([]);
 
   constructor() {
     this._initHandler();
@@ -26,7 +26,16 @@ export class PostService {
     this._posts.set([newPost, ...this._posts()]);
   }
 
-  editPost() {}
+  editPost(newPost: IPost) {
+    this._posts.set(
+      this._posts().map((post) => {
+        if (post.id === newPost.id) {
+          return newPost;
+        }
+        return post;
+      }),
+    );
+  }
 
   removePost(postId: number): void {
     this._posts.set(this._posts().filter((post) => post.id !== postId));

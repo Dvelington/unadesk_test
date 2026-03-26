@@ -7,6 +7,7 @@ import {
 import { IPost } from '../../share/post.interface';
 import { PostService } from '../../services/post.service';
 import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-post-list-item',
@@ -17,6 +18,7 @@ import { RouterLink } from '@angular/router';
 })
 export class PostListItemComponent {
   private _postService = inject(PostService);
+  private _location = inject(Location);
 
   post = input.required<IPost>();
 
