@@ -1,0 +1,10 @@
+:host{
+  min-width: 200px;
+  max-width: 30%;
+  width: 100%;
+}
+
+.post-list{
+  display: flex;
+  flex-direction: column;
+}
