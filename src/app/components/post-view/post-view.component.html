@@ -1,7 +1,15 @@
 @if(post()){
 <button class="edit-button" [routerLink]="['/edit', post()?.id]">Edit</button>
-<div class="post-view">
+<button [disabled]="!hasSelection()" (click)="openDialog()">Annotate</button>
+<div class="post-view" #postBody>
   <h1>{{post()?.title}}</h1>
   <div class="post-body">{{post()?.body}}</div>
 </div>
 }
+
+{{selection()?.focusOffset}}
+
+<dialog #dialog class="dialog">
+  <app-anotation-edit></app-anotation-edit>
+  <button class="close-button" (click)="closeDialog()">X</button>
+</dialog>

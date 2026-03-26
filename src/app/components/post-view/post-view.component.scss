@@ -4,15 +4,29 @@
   flex-direction: column;
 }
 
-.edit-button{
+.edit-button {
   width: fit-content;
 }
 
-.post-view{
+.post-view {
   overflow: hidden;
 }
 
-.post-body{
+.post-body {
   overflow: auto;
   height: 100%;
+}
+
+.dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+
+  .close-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }

@@ -14,7 +14,6 @@ export const postResolver: ResolveFn<IPost | undefined> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  console.log('resolver');
   const postService = inject(PostService);
   const router = inject(Router);
   const postId = route.paramMap.get('id') || '';

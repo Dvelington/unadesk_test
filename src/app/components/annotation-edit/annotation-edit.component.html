@@ -1,0 +1,9 @@
+<form class="form" (submit)="handleSubmit($event)">
+  <label for="title">Annotation text</label>
+  <input #title type="text" [formField]="annotationForm.text" />
+
+  <label for="color">Annotation color</label>
+  <input #color type="color" [formField]="annotationForm.color" />
+
+  <button type="submit">Save</button>
+</form>
