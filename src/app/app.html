@@ -1,9 +1,11 @@
 <app-header></app-header>
 
 <div class="container">
-  <app-post-list></app-post-list>
-  <router-outlet></router-outlet>
-  <app-annotation-list></app-annotation-list>
+  <app-post-list class="post-list"></app-post-list>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+  <app-annotation-list class="annotation-list"></app-annotation-list>
 </div>
 
 <app-footer></app-footer>
