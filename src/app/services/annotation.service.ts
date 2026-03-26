@@ -9,7 +9,7 @@ export interface IAnotationItem {
   annotation: IAnotation;
 }
 
-interface ISelection {
+export interface ISelection {
   focusOffset: number;
   anchorOffset: number;
   text: string;
@@ -26,10 +26,11 @@ export class AnnotationService {
 
   constructor() {
     this._initHandler();
-    this._loadPosts();
+    this._loadAnnotations();
   }
 
   setSelection(selection: ISelection | null) {
+    console.log(selection);
     this._currentSelection.set(selection);
   }
 
@@ -56,7 +57,7 @@ export class AnnotationService {
     });
   }
 
-  private _loadPosts(): void {
+  private _loadAnnotations(): void {
     const annotations = localStorage.getItem(ANNOTATION_LOCAL_STORAGE_KEY);
     try {
       if (annotations) {

@@ -9,6 +9,7 @@ import {
   HostListener,
   inject,
   OnInit,
+  Sanitizer,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -16,8 +17,12 @@ import { IPost } from '../../share/post.interface';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { PostService } from '../../services/post.service';
-import { filter, fromEvent } from 'rxjs';
-import { AnnotationService } from '../../services/annotation.service';
+import { filter, fromEvent, tap } from 'rxjs';
+import {
+  AnnotationService,
+  IAnotationItem,
+  ISelection,
+} from '../../services/annotation.service';
 import { RightClickDirective } from '../../services/right-click.directive';
 import { AnnotationListComponent } from '../annotation-list/annotation-list.component';
 import { AnnotationEditComponent } from '../annotation-edit/annotation-edit.component';
@@ -54,6 +59,9 @@ export class PostViewComponent implements AfterViewInit {
 
   dialogOpened = signal(false);
 
+  @ViewChild('postBody')
+  postBody?: ElementRef<HTMLDivElement>;
+
   @ViewChild('dialog')
   dialog?: ElementRef<HTMLDialogElement>;
 
@@ -74,6 +82,61 @@ export class PostViewComponent implements AfterViewInit {
         this._router.navigate(['../'], { relativeTo: this._activatedRoute });
       }
     });
+  }
+
+  applyAnnotation(annotation: IAnotationItem) {
+    const { text } = annotation.selection;
+    const replacement = annotation.selection.text;
+    const title = annotation.annotation.text;
+    if (!this.postBody) return null;
+    const walker = document.createTreeWalker(
+      this.postBody?.nativeElement,
+      NodeFilter.SHOW_TEXT,
+      null,
+    );
+
+    let node: Text | null;
+
+    while ((node = walker.nextNode() as Text)) {
+      const range = document.createRange();
+
+      range.setStart(node, annotation.selection.anchorOffset);
+      range.setEnd(node, annotation.selection.anchorOffset + text.length);
+
+      // range.deleteContents();
+
+      const span = document.createElement('span');
+      span.className = 'annotation';
+      span.style.color = annotation.annotation.color;
+      span.textContent = replacement;
+      span.title = title;
+
+      // range.insertNode(span);
+      return { range, span };
+    }
+
+    return null;
+  }
+
+  test() {
+    const annotations = this._annotationService
+      .annotations()
+      .filter((annotation) => annotation.postId === this.post()?.id);
+    console.log(annotations.length);
+    if (!this.postBody) return;
+    const batch = [];
+    for (let anatation of annotations) {
+      batch.push(this.applyAnnotation(anatation));
+    }
+    console.log(batch);
+    for (let i = batch.length - 1; i >= 0; i--) {
+      batch[i]?.range.deleteContents();
+      const element = batch[i]?.span;
+      if (!element) {
+        continue;
+      }
+      batch[i]?.range.insertNode(element);
+    }
   }
 
   openDialog() {
@@ -129,12 +192,7 @@ export class PostViewComponent implements AfterViewInit {
       });
   }
 
-  toSnapshot(sel: Selection | null): {
-    focusOffset: number;
-    anchorOffset: number;
-    text: string;
-    rangeCount: number;
-  } | null {
+  toSnapshot(sel: Selection | null): ISelection | null {
     if (!sel || sel.rangeCount === 0) return null;
 
     return {
