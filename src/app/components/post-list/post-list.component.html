@@ -1,7 +1,7 @@
 <div class="search">Search input</div>
 <div class="post-list">
-  Post list
-  <button (click)="addPost()">+</button>
+  <hr>
+  <button class="add-button" [routerLink]="['/new']">+ Add post</button>
   @for (post of posts; track post.id) {
   <app-post-list-item [post]="post"></app-post-list-item>
   }
