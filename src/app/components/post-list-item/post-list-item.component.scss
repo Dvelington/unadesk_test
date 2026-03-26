@@ -1,0 +1,19 @@
+:host {
+  padding: 2px 4px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+}
+
+.post-list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+
+}

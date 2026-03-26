@@ -1,9 +1,13 @@
 import { Routes } from '@angular/router';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
+import { postResolver } from './services/post.resolver';
 
 export const routes: Routes = [
   {
     path: 'view/:id',
+    resolve: {
+      post: postResolver,
+    },
     loadComponent: () =>
       import('./components/post-view/post-view.component').then(
         (c) => c.PostViewComponent,

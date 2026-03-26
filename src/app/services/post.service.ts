@@ -18,6 +18,10 @@ export class PostService {
     return this._posts();
   }
 
+  getPostById(id: number | string): IPost | undefined {
+    return this._posts().find((post) => post.id === Number(id));
+  }
+
   addPost(newPost: IPost): void {
     this._posts.set([newPost, ...this._posts()]);
   }

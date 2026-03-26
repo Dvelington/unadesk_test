@@ -1,0 +1,6 @@
+@if(post()){
+<div class="post-list-item" [routerLink]="['/view', post()?.id]">
+  <span>{{post()?.title}}</span>
+  <button (click)="removePost()">X</button>
+</div>
+}
