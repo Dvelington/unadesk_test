@@ -1,3 +1,29 @@
-<form>
+<form class="post-form" (submit)="onSubmit($event)">
+  <div class="form-action">
+    <button type="submit" [disabled]="postForm().invalid()">Save</button>
+  </div>
+
+  <label for="title">Title</label>
+  <input type="text" [formField]="postForm.title" [ngClass]="{'error-state':titleErrorState()}">
+  <div class="error-text">
+    @if(postForm.title().touched() && postForm.title().errors()){
+
+    @for (error of postForm.title().errors(); track error.kind) {
+    <span>{{error.message}}</span>
+    }
+
+    }
+  </div>
+  <label for="body">Post message</label>
+  <textarea [formField]="postForm.body" rows="10" [ngClass]="{'error-state':bodyErrorState()}"></textarea>
+  <div class="error-text">
+    @if(bodyErrorState()){
+    @for (error of postForm.body().errors(); track error.kind) {
+    <span>{{error.message}}</span>
+    }
+    }
+  </div>
+
+
 
 </form>
