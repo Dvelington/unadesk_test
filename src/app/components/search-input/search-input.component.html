@@ -1,0 +1,5 @@
+<div class="wrapper">
+  <input class="input" type="text" [value]="query()" (input)="handleInput($event.target)"
+    placeholder="input for search">
+  <div class="clear tooltip" (click)="clear()" data-tooltip="Clear">X</div>
+</div>

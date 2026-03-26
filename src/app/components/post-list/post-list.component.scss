@@ -2,12 +2,15 @@
   min-width: 200px;
   max-width: 300px;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .post-list{
   display: flex;
   flex-direction: column;
-
   gap: 8px;
 }
 

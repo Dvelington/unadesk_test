@@ -1,8 +1,8 @@
-<div class="search">Search input</div>
+<app-search-input class="search" (search)="search($event)">Search input</app-search-input>
 <div class="post-list">
   <hr>
   <button class="add-button" [routerLink]="['/new']">+ Add post</button>
-  @for (post of posts; track post.id) {
+  @for (post of posts(); track post.id) {
   <app-post-list-item [post]="post"></app-post-list-item>
   }
 </div>

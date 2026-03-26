@@ -1,27 +1,38 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { IPost } from '../../share/post.interface';
 import { Router, RouterLink } from '@angular/router';
 import { PostListItemComponent } from '../post-list-item/post-list-item.component';
+import { SearchInputComponent } from '../search-input/search-input.component';
 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PostListItemComponent],
+  imports: [RouterLink, PostListItemComponent, SearchInputComponent],
 })
 export class PostListComponent {
-  _postService = inject(PostService);
-  _router = inject(Router);
+  private _postService = inject(PostService);
+  private _searchQuery = signal('');
 
-  get posts(): IPost[] {
-    return this._postService.getPosts();
+  posts = computed(() => {
+    return this._postService
+      .getPosts()
+      .filter((post) =>
+        post.title
+          .toLocaleLowerCase()
+          .includes(this._searchQuery().toLocaleLowerCase()),
+      );
+  });
+
+  search(value: string) {
+    this._searchQuery.set(value);
   }
-
-  addPost(): void {
-    console.log('add post');
-  }
-
-  goToPost(id: number) {}
 }
