@@ -6,27 +6,23 @@ import {
   DestroyRef,
   effect,
   ElementRef,
-  HostListener,
   inject,
-  OnInit,
-  Sanitizer,
   signal,
   ViewChild,
 } from '@angular/core';
-import { IPost } from '../../share/post.interface';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { PostService } from '../../services/post.service';
-import { filter, fromEvent, tap } from 'rxjs';
+import { filter, fromEvent } from 'rxjs';
 import {
   AnnotationService,
   IAnotationItem,
   ISelection,
 } from '../../services/annotation.service';
-import { RightClickDirective } from '../../services/right-click.directive';
 import { AnnotationListComponent } from '../annotation-list/annotation-list.component';
 import { AnnotationEditComponent } from '../annotation-edit/annotation-edit.component';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-view',
@@ -35,7 +31,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     RouterLink,
-    RightClickDirective,
     AnnotationListComponent,
     AnnotationEditComponent,
   ],
@@ -50,6 +45,7 @@ export class PostViewComponent implements AfterViewInit {
 
   private _annotationService = inject(AnnotationService);
   private _suppressClick = signal(false);
+  private _sanitizer = inject(DomSanitizer);
 
   selection = this._annotationService.currentSelection;
 
@@ -65,6 +61,12 @@ export class PostViewComponent implements AfterViewInit {
 
   post = computed(() => this._postData()?.['post']);
 
+  postAnnotations = computed(() => {
+    return this._annotationService
+      .annotations()
+      .filter((annotation) => annotation.postId === this.post()?.id);
+  });
+
   isPostExist = computed(() => {
     const curretPost = this.post();
     return (
@@ -78,6 +80,13 @@ export class PostViewComponent implements AfterViewInit {
     effect(() => {
       if (!this.isPostExist()) {
         this._router.navigate(['../'], { relativeTo: this._activatedRoute });
+      }
+    });
+    effect(() => {
+      const currentPost = this.post();
+
+      if (currentPost) {
+        this.renderHighlights();
       }
     });
   }
@@ -114,27 +123,6 @@ export class PostViewComponent implements AfterViewInit {
     }
 
     return null;
-  }
-
-  test() {
-    const annotations = this._annotationService
-      .annotations()
-      .filter((annotation) => annotation.postId === this.post()?.id);
-    console.log(annotations.length);
-    if (!this.postBody) return;
-    const batch = [];
-    for (let anatation of annotations) {
-      batch.push(this.applyAnnotation(anatation));
-    }
-    console.log(batch);
-    for (let i = batch.length - 1; i >= 0; i--) {
-      batch[i]?.range.deleteContents();
-      const element = batch[i]?.span;
-      if (!element) {
-        continue;
-      }
-      batch[i]?.range.insertNode(element);
-    }
   }
 
   openDialog() {
@@ -188,6 +176,62 @@ export class PostViewComponent implements AfterViewInit {
           this.dialog.nativeElement.close();
         }
       });
+    this.renderHighlights();
+  }
+
+  private escapeHtml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  highlightedHtml = signal<SafeHtml>('');
+
+  private renderHighlights() {
+    const html = this.buildHighlightedHtml(
+      this.post()?.body,
+      this.postAnnotations(),
+    );
+    this.highlightedHtml.set(this._sanitizer.bypassSecurityTrustHtml(html));
+  }
+
+  private buildHighlightedHtml(text: string, anns: IAnotationItem[]): string {
+    if (!text) return '';
+
+    const sortedAnns = [...anns].sort(
+      (a, b) => a.selection.start - b.selection.start,
+    );
+
+    let result = '';
+    let lastIndex = 0;
+
+    for (const ann of sortedAnns) {
+      const { start, end } = ann.selection;
+
+      if (start > lastIndex) {
+        result += this.escapeHtml(text.slice(lastIndex, start));
+      }
+
+      const title = ann.annotation.text || '';
+      const color = ann.annotation.color || '#ffeb3b';
+
+      result += `<span class="annotation" 
+                       style="text-decoration: underline; text-decoration-color: ${color};"
+                       title="${this.escapeHtml(title)}">
+                  ${this.escapeHtml(text.slice(start, end))}
+                 </span>`;
+
+      lastIndex = Math.max(lastIndex, end);
+    }
+
+    if (lastIndex < text.length) {
+      result += this.escapeHtml(text.slice(lastIndex));
+    }
+
+    return result;
   }
 
   toSnapshot(sel: Selection | null): ISelection | null {
@@ -229,6 +273,6 @@ export class PostViewComponent implements AfterViewInit {
       }
       totalChars += (currentNode as Text).length;
     }
-    return -1; // не нашли
+    return -1;
   }
 }

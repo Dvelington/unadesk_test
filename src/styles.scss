@@ -9,6 +9,16 @@ body{
   height: 100dvh;
 }
 
-.annotation{
-  color: red;
+dialog-overlay {
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }

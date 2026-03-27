@@ -20,12 +20,17 @@ export class AnnotationService {
   private _currentSelection = signal<ISelection | null>(null);
 
   currentSelection = this._currentSelection.asReadonly();
+  editedAnnotationId = signal<number | null>(null);
 
   annotations = signal<IAnotationItem[]>([]);
 
   constructor() {
     this._initHandler();
     this._loadAnnotations();
+  }
+
+  setEditedAnnotationId(id: number | null) {
+    this.editedAnnotationId.set(id);
   }
 
   setSelection(selection: ISelection | null) {
@@ -44,6 +49,28 @@ export class AnnotationService {
         selection: selection,
         annotation,
       },
+    ]);
+  }
+
+  updateAnnotation(annotation: IAnotation) {
+    this.annotations.set([
+      ...this.annotations().map((item) => {
+        if (item.annotation.id === annotation.id) {
+          return {
+            ...item,
+            annotation,
+          };
+        }
+        return item;
+      }),
+    ]);
+  }
+
+  removeAnnotation(annotationItem: IAnotationItem) {
+    this.annotations.set([
+      ...this.annotations().filter(
+        (item) => item.annotation.id !== annotationItem.annotation.id,
+      ),
     ]);
   }
 

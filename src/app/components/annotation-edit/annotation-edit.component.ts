@@ -1,7 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { AnnotationService } from '../../services/annotation.service';
@@ -28,6 +31,11 @@ export class AnnotationEditComponent {
   private _annotationService = inject(AnnotationService);
   private _activatedRoute = inject(ActivatedRoute);
 
+  isEdit = computed(() => {
+    const editedAnnotationId = this._annotationService.editedAnnotationId();
+    return !!editedAnnotationId;
+  });
+
   curentSelection = this._annotationService.currentSelection;
 
   annotationModel = signal<IAnotation>({
@@ -43,8 +51,29 @@ export class AnnotationEditComponent {
     required(scheme.color, { message: 'Color is required' });
   });
 
+  constructor() {
+    effect(() => {
+      if (this.isEdit()) {
+        const annotation = this._annotationService
+          .annotations()
+          .find(
+            (annotation) =>
+              annotation.postId ===
+              this._annotationService.editedAnnotationId(),
+          )?.annotation;
+        if (annotation) {
+          this.annotationModel.set(annotation);
+        }
+      }
+    });
+  }
+
   handleSubmit(event: SubmitEvent) {
     event.preventDefault();
-    this._annotationService.addAnnotation(this.annotationModel());
+    if (this.isEdit()) {
+      this._annotationService.updateAnnotation(this.annotationModel());
+    } else {
+      this._annotationService.addAnnotation(this.annotationModel());
+    }
   }
 }

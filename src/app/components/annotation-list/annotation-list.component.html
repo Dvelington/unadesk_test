@@ -1,6 +1,14 @@
 <h2>Annotation list</h2>
 <div class="annotation-list">
   @for (annotation of annotations(); track annotation.annotation.id) {
-  <div class="chips">{{annotation.selection.text}}</div>
+  <div class="chips" [ngStyle]="{'background-color': annotation.annotation.color}" (click)="openEditor(annotation)">
+    {{annotation.selection.text}}
+    <div class="chip-remove" (click)="removeAnnotation($event,annotation)">x</div>
+  </div>
   }
 </div>
+
+<dialog #dialog class="dialog" data-annotation="annotation">
+  <app-anotation-edit></app-anotation-edit>
+  <button class="close-button" (click)="closeDialog()">X</button>
+</dialog>

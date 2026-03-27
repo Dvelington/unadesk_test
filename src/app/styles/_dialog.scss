@@ -1,0 +1,12 @@
+.dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

@@ -3,12 +3,9 @@
 <button [disabled]="!hasSelection()" (click)="openDialog()">Annotate</button>
 <div class="post-view">
   <h1>{{post()?.title}}</h1>
-  <div #postBody class="post-body">{{post()?.body}}</div>
+  <div #postBody class="post-body" [innerHTML]="highlightedHtml()"></div>
 </div>
 }
-
-
-<button (click)="test()">Test</button>
 
 <dialog #dialog class="dialog">
   <app-anotation-edit></app-anotation-edit>

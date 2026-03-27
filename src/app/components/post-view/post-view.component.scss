@@ -1,3 +1,5 @@
+@use 'dialog';
+
 :host {
   height: 100%;
   display: flex;
@@ -15,18 +17,4 @@
 .post-body {
   overflow: auto;
   height: 100%;
-}
-
-.dialog {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
-
-  .close-button{
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
 }
