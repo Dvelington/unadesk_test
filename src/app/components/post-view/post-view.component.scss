@@ -20,6 +20,9 @@
 
 .post-view {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: v.$base-inner-gap;
 }
 
 .post-body {

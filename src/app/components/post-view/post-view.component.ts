@@ -140,7 +140,8 @@ export class PostViewComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    fromEvent(document, 'mouseup')
+    if (!this.postBody) return;
+    fromEvent<MouseEvent>(this.postBody.nativeElement, 'mouseup')
       .pipe(
         filter(() => !this.dialogOpened()),
         takeUntilDestroyed(this._destoryRef),
