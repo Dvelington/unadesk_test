@@ -44,6 +44,7 @@ export class PostService {
         return post;
       }),
     ]);
+    this._annotationService.removeAnnotationsByPostId(newPost.id);
   }
 
   removePost(postId: number): void {

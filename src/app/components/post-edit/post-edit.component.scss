@@ -40,3 +40,14 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+
+.warning{
+  font-size: 90%;
+  color: rgb(233, 58, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  width: 100%;
+  padding: v.$base-inner-padding;
+}

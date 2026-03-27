@@ -1,4 +1,9 @@
 <form class="post-form" (submit)="onSubmit($event)">
+
+  @if (isEdit()) {
+  <span class="warning">If you edit a post all annotations will be lost!</span>
+  }
+
   <div class="form-action">
     <button type="submit" class="button" [disabled]="postForm().invalid()">Save</button>
   </div>
