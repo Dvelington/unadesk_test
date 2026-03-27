@@ -4,7 +4,6 @@ import {
   computed,
   effect,
   inject,
-  input,
   signal,
 } from '@angular/core';
 import { AnnotationService } from '../../services/annotation.service';
@@ -58,7 +57,7 @@ export class AnnotationEditComponent {
           .annotations()
           .find(
             (annotation) =>
-              annotation.postId ===
+              annotation.annotation.id ===
               this._annotationService.editedAnnotationId(),
           )?.annotation;
         if (annotation) {

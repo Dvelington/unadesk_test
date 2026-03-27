@@ -1,6 +1,6 @@
 @if(post()){
-<div class="post-list-item tooltip" [attr.data-tooltip]="post()?.title">
-  <span class="truncate" [routerLink]="['/view', post()?.id]">{{post()?.title}}</span>
+<div class="post-list-item tooltip" [attr.data-tooltip]="post().title">
+  <span class="truncate" [routerLink]="['/view', post().id]">{{post().title}}</span>
   <button (click)="removePost()">X</button>
 </div>
 }

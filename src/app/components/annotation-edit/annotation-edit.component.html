@@ -5,7 +5,7 @@
   <label for="color">Annotation color</label>
   <input #color type="color" [formField]="annotationForm.color" />
 
-  <button type="submit">Save</button>
+  <button type="submit" [disabled]="annotationForm().invalid()">Save</button>
 </form>
 
 {{isEdit()}}

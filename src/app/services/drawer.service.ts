@@ -21,11 +21,13 @@ export class DrawerService {
 
   renderHighlights(text: string, annotations: IAnotationItem[]) {
     const html = this.buildHighlightedHtml(text, annotations);
+    console.log('html', html);
     this.highlightedHtml.set(this._sanitizer.bypassSecurityTrustHtml(html));
   }
 
   private buildHighlightedHtml(text: string, anns: IAnotationItem[]): string {
     if (!text) return '';
+    text = text.replace(/\n/g, ' ');
 
     const sortedAnns = [...anns].sort(
       (a, b) => a.selection.start - b.selection.start,
@@ -44,11 +46,7 @@ export class DrawerService {
       const title = ann.annotation.text || '';
       const color = ann.annotation.color || '#ffeb3b';
 
-      result += `<span class="annotation" 
-                       style="text-decoration: underline; text-decoration-color: ${color};"
-                       title="${this.escapeHtml(title)}">
-                  ${this.escapeHtml(text.slice(start, end))}
-                 </span>`;
+      result += `<span class="annotation" style="text-decoration: underline; text-decoration-color: ${color};" title="${this.escapeHtml(title)}">${this.escapeHtml(text.slice(start, end))}</span>`;
 
       lastIndex = Math.max(lastIndex, end);
     }

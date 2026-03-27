@@ -1,5 +1,6 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { IPost } from '../share/post.interface';
+import { AnnotationService } from './annotation.service';
 
 export const POSTS_LOCAL_STORAGE_KEY = 'posts';
 
@@ -7,6 +8,8 @@ export const POSTS_LOCAL_STORAGE_KEY = 'posts';
   providedIn: 'root',
 })
 export class PostService {
+  private _annotationService = inject(AnnotationService);
+
   private readonly _posts = signal<IPost[]>([]);
 
   private readonly _currentPostId = signal<number | undefined>(undefined);
@@ -33,18 +36,19 @@ export class PostService {
   }
 
   editPost(newPost: IPost) {
-    this._posts.set(
-      this._posts().map((post) => {
+    this._posts.set([
+      ...this._posts().map((post) => {
         if (post.id === newPost.id) {
           return newPost;
         }
         return post;
       }),
-    );
+    ]);
   }
 
   removePost(postId: number): void {
-    this._posts.set(this._posts().filter((post) => post.id !== postId));
+    this._posts.set([...this._posts().filter((post) => post.id !== postId)]);
+    this._annotationService.removeAnnotationsByPostId(postId);
   }
 
   private _initHandler(): void {

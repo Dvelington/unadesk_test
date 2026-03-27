@@ -1,4 +1,4 @@
-import { DOCUMENT, effect, inject, Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { IAnotation } from '../components/annotation-edit/annotation-edit.component';
 
 const ANNOTATION_LOCAL_STORAGE_KEY = 'annotations';
@@ -63,6 +63,12 @@ export class AnnotationService {
         }
         return item;
       }),
+    ]);
+  }
+
+  removeAnnotationsByPostId(postId: number) {
+    this.annotations.set([
+      ...this.annotations().filter((item) => item.postId !== postId),
     ]);
   }
 

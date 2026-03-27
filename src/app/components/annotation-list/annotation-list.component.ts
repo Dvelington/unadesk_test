@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   ViewChild,
@@ -38,8 +39,10 @@ export class AnnotationListComponent {
       .filter((annotation) => annotation.postId === this.postId());
   });
 
+  constructor() {}
+
   openEditor(annotation: IAnotationItem) {
-    this._annotationService.setEditedAnnotationId(annotation.postId);
+    this._annotationService.setEditedAnnotationId(annotation.annotation.id);
     this.dialog?.nativeElement.showModal();
   }
 

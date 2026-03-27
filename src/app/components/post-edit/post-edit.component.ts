@@ -55,6 +55,7 @@ export class PostEditComponent implements OnInit {
     effect(() => {
       if (this.isEdit()) {
         const p = this._postService.getPostById(this.id());
+        console.log(p);
         if (!p) return;
         this.postModel.set(p);
       }
@@ -68,7 +69,6 @@ export class PostEditComponent implements OnInit {
 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    console.log(this.isEdit());
     if (!this.isEdit()) {
       this._postService.addPost(this.postModel());
       this.postForm().reset({ ...initialFormState, id: Date.now() });

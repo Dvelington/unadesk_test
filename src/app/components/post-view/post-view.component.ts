@@ -172,9 +172,5 @@ export class PostViewComponent implements AfterViewInit {
           this.dialog.nativeElement.close();
         }
       });
-    this._drawerService.renderHighlights(
-      this.post().body,
-      this.postAnnotations(),
-    );
   }
 }
