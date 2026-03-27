@@ -9,7 +9,7 @@
 
 <dialog #dialog class="dialog">
   @if(dialogOpened()){
-  <app-anotation-edit></app-anotation-edit>
+  <app-anotation-edit (closeDialogEvent)="closeDialog()"></app-anotation-edit>
   }
 
   <button class="close-button" (click)="closeDialog()">X</button>

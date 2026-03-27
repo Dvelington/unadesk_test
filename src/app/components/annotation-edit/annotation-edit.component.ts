@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  output,
   signal,
 } from '@angular/core';
 import { AnnotationService } from '../../services/annotation.service';
@@ -29,6 +30,8 @@ export interface IAnotation {
 export class AnnotationEditComponent {
   private _annotationService = inject(AnnotationService);
   private _activatedRoute = inject(ActivatedRoute);
+
+  closeDialogEvent = output();
 
   isEdit = computed(() => {
     const editedAnnotationId = this._annotationService.editedAnnotationId();
@@ -73,6 +76,7 @@ export class AnnotationEditComponent {
       this._annotationService.updateAnnotation(this.annotationModel());
     } else {
       this._annotationService.addAnnotation(this.annotationModel());
+      this.closeDialogEvent.emit();
     }
   }
 }
