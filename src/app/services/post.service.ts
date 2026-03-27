@@ -9,9 +9,7 @@ export const POSTS_LOCAL_STORAGE_KEY = 'posts';
 })
 export class PostService {
   private _annotationService = inject(AnnotationService);
-
   private readonly _posts = signal<IPost[]>([]);
-
   private readonly _currentPostId = signal<number | undefined>(undefined);
 
   currentPostId = this._currentPostId.asReadonly();
@@ -19,6 +17,10 @@ export class PostService {
   constructor() {
     this._initHandler();
     this._loadPosts();
+  }
+
+  setCurrentPostId(id: number | undefined): void {
+    this._currentPostId.set(id);
   }
 
   getPosts(): IPost[] {

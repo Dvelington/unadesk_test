@@ -30,16 +30,32 @@ export class AnnotationListComponent {
 
   postId = this._postService.currentPostId;
 
+  annotations = computed(() => {
+    const currentPostId = this.postId();
+    if (currentPostId == null) {
+      return [];
+    }
+    return this._annotationService
+      .annotations()
+      .filter((ann) => ann.postId === currentPostId);
+  });
+
+  hasAnnotations = computed(() => this.annotations().length > 0);
+
   @ViewChild('dialog')
   dialog?: ElementRef<HTMLDialogElement>;
 
-  annotations = computed(() => {
-    return this._annotationService
-      .annotations()
-      .filter((annotation) => annotation.postId === this.postId());
-  });
+  // annotations = computed(() => {
+  //   return this._annotationService
+  //     .annotations()
+  //     .filter((annotation) => annotation.postId === this.postId());
+  // });
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      const currentPostId = this.postId();
+    });
+  }
 
   openEditor(annotation: IAnotationItem) {
     this._annotationService.setEditedAnnotationId(annotation.annotation.id);

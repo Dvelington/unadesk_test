@@ -58,7 +58,6 @@ export class PostEditComponent implements OnInit {
     effect(() => {
       if (this.isEdit()) {
         const p = this._postService.getPostById(this.id());
-        console.log(p);
         if (!p) return;
         this.postModel.set(p);
       }

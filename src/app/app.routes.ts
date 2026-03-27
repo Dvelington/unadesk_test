@@ -29,6 +29,9 @@ export const routes: Routes = [
   },
   {
     path: 'new',
+    resolve: {
+      post: postResolver,
+    },
     loadComponent: () =>
       import('./components/post-edit/post-edit.component').then(
         (c) => c.PostEditComponent,

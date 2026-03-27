@@ -8,7 +8,7 @@
   gap: v.$base-inner-gap;
 }
 
-.actions{
+.actions {
   display: flex;
   flex-direction: row;
   gap: v.$base-inner-gap;
@@ -28,4 +28,6 @@
 .post-body {
   overflow: auto;
   height: 100%;
+  color: #4c4c4c;
+  line-height: 1.4;
 }
