@@ -1,0 +1,15 @@
+$primary-color: #007bff;
+$base-font-size: 16px;
+
+$base-island-padding: 10px 12px;
+$base-island-border: 1px solid rgba(0, 0, 0, 0.15);
+$base-island-border-radius: 8px;
+
+$base-inner-gap: 8px;
+
+
+.base-island{
+  padding: $base-island-padding;
+  border: $base-island-border;
+  border-radius: $base-island-border-radius;
+}

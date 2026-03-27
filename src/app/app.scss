@@ -1,3 +1,5 @@
+@use "variables" as v;
+
 :host{
   height: 100%;
   overflow: hidden;
@@ -5,7 +7,8 @@
   display: flex;
   flex-direction: column;
 
-  padding: 1rem;
+  padding: v.$base-island-padding;
+  gap: v.$base-inner-gap;
 }
 
 app-footer{
@@ -14,17 +17,17 @@ app-footer{
 
 .container{
   flex: 1 1 auto;
-
   overflow: hidden;
-
   display: flex;
   flex-direction: row;
-
+  gap: v.$base-inner-gap;
   .content{
     flex:1;
     min-width: 0;
     overflow: hidden;
+    @extend .base-island;
   }
+
 }
 
 @media (max-width: 768px) {

@@ -1,8 +1,12 @@
-:host{
+@use "variables" as v;
+
+:host {
   height: 60px;
 
   display: flex;
   align-items: center;
 
   flex-shrink: 0;
+
+  @extend .base-island;
 }
