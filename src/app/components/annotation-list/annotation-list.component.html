@@ -4,8 +4,9 @@
 </div>
 <div class="annotation-list">
   @for (annotation of annotations(); track annotation.annotation.id) {
-  <div class="chips" [ngStyle]="{'background-color': annotation.annotation.color}" (click)="openEditor(annotation)">
-    {{annotation.selection.text}}
+  <div class="chips" [title]="annotation.selection.text" [ngStyle]="{'background-color': annotation.annotation.color}"
+    (click)="openEditor(annotation)">
+    <div class="truncate">{{annotation.selection.text}}</div>
     <div class="button chip-button" (click)="removeAnnotation($event,annotation)">&#x2715;</div>
   </div>
   }
