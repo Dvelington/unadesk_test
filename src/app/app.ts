@@ -13,7 +13,6 @@ import { AnnotationListComponent } from './components/annotation-list/annotation
     HeaderComponent,
     FooterComponent,
     PostListComponent,
-    PostEditComponent,
     AnnotationListComponent,
   ],
   templateUrl: './app.html',
