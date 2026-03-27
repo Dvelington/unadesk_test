@@ -1,5 +1,6 @@
 @use 'dialog';
 @use 'variables' as v;
+
 :host {
   min-width: 100px;
   max-width: 200px;
@@ -7,9 +8,11 @@
   height: 100%;
   flex-shrink: 0;
   overflow: hidden;
-
+  display: flex;
+  flex-direction: column;
   @extend .base-island;
   background-color: v.$base-background-color;
+  gap: v.$base-inner-gap;
 }
 
 .annotation-list{

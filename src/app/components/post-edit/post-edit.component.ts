@@ -32,7 +32,7 @@ export class PostEditComponent implements OnInit {
   id = signal('');
   isEdit = computed(() => this.id() !== '');
 
-  postModel = signal<IPost>(initialFormState);
+  postModel = signal<IPost>({ ...initialFormState, id: Date.now() });
 
   postForm = form(this.postModel, (scheme) => {
     required(scheme.title, { message: 'Title is required' });

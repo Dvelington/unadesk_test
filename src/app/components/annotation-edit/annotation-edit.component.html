@@ -1,11 +1,9 @@
 <form class="form" (submit)="handleSubmit($event)">
   <label for="title">Annotation text</label>
-  <input #title type="text" [formField]="annotationForm.text" />
+  <input #title type="text" class="base-input" [formField]="annotationForm.text" />
 
   <label for="color">Annotation color</label>
-  <input #color type="color" [formField]="annotationForm.color" />
+  <input #color type="color" class="base-input" [formField]="annotationForm.color" />
 
-  <button type="submit" [disabled]="annotationForm().invalid()">Save</button>
+  <button type="submit" class="button" [disabled]="annotationForm().invalid()">Save</button>
 </form>
-
-{{isEdit()}}

@@ -34,7 +34,6 @@ export class AnnotationService {
   }
 
   setSelection(selection: ISelection | null) {
-    console.log(selection);
     this._currentSelection.set(selection);
   }
 

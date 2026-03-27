@@ -1,6 +1,6 @@
 @if(post()){
-<div class="post-list-item" [title]="post().title">
-  <span class="truncate" [routerLink]="['/view', post().id]">{{post().title}}</span>
+<div class="post-list-item" [title]="post().title" [routerLink]="['/view', post().id]">
+  <span class="truncate">{{post().title}}</span>
   <button class="button remove-button" (click)="removePost()" title="Remove">&#x2715;</button>
 </div>
 }

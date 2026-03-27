@@ -21,7 +21,6 @@ export class DrawerService {
 
   renderHighlights(text: string, annotations: IAnotationItem[]) {
     const html = this.buildHighlightedHtml(text, annotations);
-    console.log('html', html);
     this.highlightedHtml.set(this._sanitizer.bypassSecurityTrustHtml(html));
   }
 
