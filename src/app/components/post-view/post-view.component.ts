@@ -18,7 +18,6 @@ import {
   AnnotationService,
   IAnotationItem,
 } from '../../services/annotation.service';
-import { AnnotationListComponent } from '../annotation-list/annotation-list.component';
 import { AnnotationEditComponent } from '../annotation-edit/annotation-edit.component';
 import { CommonModule } from '@angular/common';
 import { DrawerService } from '../../services/drawer.service';
@@ -43,7 +42,6 @@ export class PostViewComponent implements AfterViewInit {
 
   selection = this._annotationService.currentSelection;
   highlightedHtml = this._drawerService.highlightedHtml;
-
   hasSelection = computed(() => this.selection());
 
   dialogOpened = signal(false);
@@ -87,36 +85,6 @@ export class PostViewComponent implements AfterViewInit {
         );
       }
     });
-  }
-
-  applyAnnotation(annotation: IAnotationItem) {
-    const replacement = annotation.selection.text;
-    const title = annotation.annotation.text;
-    if (!this.postBody) return null;
-    const walker = document.createTreeWalker(
-      this.postBody?.nativeElement,
-      NodeFilter.SHOW_TEXT,
-      null,
-    );
-
-    let node: Text | null;
-
-    while ((node = walker.nextNode() as Text)) {
-      const range = document.createRange();
-
-      range.setStart(node, annotation.selection.start);
-      range.setEnd(node, annotation.selection.end);
-
-      const span = document.createElement('span');
-      span.className = 'annotation';
-      span.style.color = annotation.annotation.color;
-      span.textContent = replacement;
-      span.title = title;
-
-      return { range, span };
-    }
-
-    return null;
   }
 
   openDialog() {

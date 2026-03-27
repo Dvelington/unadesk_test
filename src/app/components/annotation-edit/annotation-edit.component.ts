@@ -17,7 +17,6 @@ export interface IAnotation {
   id: number;
   text: string;
   color: string;
-  content: string;
 }
 
 @Component({
@@ -45,7 +44,6 @@ export class AnnotationEditComponent {
     text: '',
     color: '#fff',
     postId: Number(this._activatedRoute.snapshot.params['id']) || 0,
-    content: '',
   });
 
   annotationForm = form(this.annotationModel, (scheme) => {

@@ -8,7 +8,7 @@ import { IAnotationItem, ISelection } from './annotation.service';
 export class DrawerService {
   private _sanitizer = inject(DomSanitizer);
 
-  private escapeHtml(str: string): string {
+  escapeHtml(str: string): string {
     return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -24,7 +24,7 @@ export class DrawerService {
     this.highlightedHtml.set(this._sanitizer.bypassSecurityTrustHtml(html));
   }
 
-  private buildHighlightedHtml(text: string, anns: IAnotationItem[]): string {
+  buildHighlightedHtml(text: string, anns: IAnotationItem[]): string {
     if (!text) return '';
     text = text.replace(/\n/g, ' ');
 
