@@ -1,6 +1,9 @@
 @if(post()){
-<button class="edit-button" [routerLink]="['/edit', post()?.id]">Edit</button>
-<button [disabled]="!hasSelection()" (click)="openDialog()">Annotate</button>
+<div class="actions">
+  <button class="button edit-button" [routerLink]="['/edit', post()?.id]">Edit</button>
+  <button class="button" [disabled]="!hasSelection()" (click)="openDialog()">Annotate</button>
+</div>
+<hr>
 <div class="post-view">
   <h1>{{post()?.title}}</h1>
   <div #postBody class="post-body" [innerHTML]="highlightedHtml()"></div>

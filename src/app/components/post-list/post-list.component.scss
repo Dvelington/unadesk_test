@@ -9,7 +9,8 @@
   flex-direction: column;
 
   @extend .base-island;
-
+  gap: v.$base-inner-gap;
+  background-color: v.$base-background-color;
 }
 
 .post-list{
@@ -20,15 +21,7 @@
 }
 
 .add-button{
-  cursor: pointer;
   width: fit-content;
-  padding: 8px;
-  border: 0px solid transparent;
-  border-radius: 4px;
-
-  &:hover{
-    background-color: rgba(0, 0, 0, 0.15);
-  }
 }
 
 @media (max-width: 768px) {

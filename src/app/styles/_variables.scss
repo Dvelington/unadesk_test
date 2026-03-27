@@ -1,15 +1,55 @@
 $primary-color: #007bff;
 $base-font-size: 16px;
 
+$base-background-color: #8080800f;
+
 $base-island-padding: 10px 12px;
-$base-island-border: 1px solid rgba(0, 0, 0, 0.15);
+// $base-island-border: 1px solid rgba(0, 0, 0, 0.15);
+$base-island-border: 0px solid rgba(0, 0, 0, 0.15);
 $base-island-border-radius: 8px;
 
+$base-input-border: 1px solid rgba(0, 0, 0, 0.15);
+$base-input-border-radius: 8px;
+$base-input-padding: 2px 4px;
+
 $base-inner-gap: 8px;
+$base-inner-padding: 2px 4px;
+
+$base-button-border-radius: 0px;
+$base-button-padding: 8px 10px;
+$base-button-border: 0px solid rgba(0, 0, 0, 0.15);
 
 
-.base-island{
+.base-island {
   padding: $base-island-padding;
   border: $base-island-border;
   border-radius: $base-island-border-radius;
+}
+
+.button {
+  cursor: pointer;
+  border-radius: $base-button-border-radius;
+  border: $base-button-border;
+  padding: $base-button-padding;
+  color: rgba(0, 0, 0, 0.50);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.20);
+  }
+}
+
+.base-input {
+  width: 100%;
+  height: 30px;
+  @extend .base-input-border;
+}
+
+.base-textarea{
+  width: 100%;
+  @extend .base-input-border;
+}
+
+.base-input-border{
+  border-radius: $base-input-border-radius;
+  border: $base-input-border;
+  padding: $base-input-padding;
 }

@@ -1,9 +1,17 @@
 @use 'dialog';
+@use 'variables' as v;
 
 :host {
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: v.$base-inner-gap;
+}
+
+.actions{
+  display: flex;
+  flex-direction: row;
+  gap: v.$base-inner-gap;
 }
 
 .edit-button {

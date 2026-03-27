@@ -9,14 +9,20 @@
   overflow: hidden;
 
   @extend .base-island;
+  background-color: v.$base-background-color;
 }
 
 .annotation-list{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: v.$base-inner-gap;
   overflow: auto;
+  width: 100%;
+
+  .header{
+    flex: 1;
+  }
 }
 
 .chips{

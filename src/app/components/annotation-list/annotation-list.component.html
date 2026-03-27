@@ -1,5 +1,9 @@
-<h2>Annotation list</h2>
 <div class="annotation-list">
+  <div class="header">
+    Annotations
+    <hr>
+  </div>
+
   @for (annotation of annotations(); track annotation.annotation.id) {
   <div class="chips" [ngStyle]="{'background-color': annotation.annotation.color}" (click)="openEditor(annotation)">
     {{annotation.selection.text}}

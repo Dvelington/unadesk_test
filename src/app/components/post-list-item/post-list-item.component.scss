@@ -1,10 +1,12 @@
 @use "utils";
 @use "tooltip";
+@use "variables" as v;
 
 :host {
-  padding: 2px 4px;
-
+  padding: v.$base-inner-padding;
   cursor: pointer;
+
+  border-radius: v.$base-island-border-radius;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
@@ -21,5 +23,12 @@
   span{
     width: 100%;
   }
+}
 
+.remove-button{
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

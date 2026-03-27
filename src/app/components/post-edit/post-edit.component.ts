@@ -3,11 +3,12 @@ import {
   Component,
   computed,
   effect,
+  inject,
   OnInit,
   signal,
 } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IPost } from '../../share/post.interface';
 import { NgStyle, NgClass } from '@angular/common';
 import { PostService } from '../../services/post.service';
@@ -26,6 +27,8 @@ const initialFormState = {
   imports: [FormField, NgClass],
 })
 export class PostEditComponent implements OnInit {
+  private _router = inject(Router);
+
   id = signal('');
   isEdit = computed(() => this.id() !== '');
 
@@ -71,7 +74,9 @@ export class PostEditComponent implements OnInit {
     event.preventDefault();
     if (!this.isEdit()) {
       this._postService.addPost(this.postModel());
+      const createdId = this.postModel().id;
       this.postForm().reset({ ...initialFormState, id: Date.now() });
+      this._router.navigate(['../view/', createdId]);
     } else {
       this._postService.editPost(this.postModel());
     }
