@@ -9,6 +9,10 @@ export const POSTS_LOCAL_STORAGE_KEY = 'posts';
 export class PostService {
   private readonly _posts = signal<IPost[]>([]);
 
+  private readonly _currentPostId = signal<number | undefined>(undefined);
+
+  currentPostId = this._currentPostId.asReadonly();
+
   constructor() {
     this._initHandler();
     this._loadPosts();
@@ -19,7 +23,9 @@ export class PostService {
   }
 
   getPostById(id: number | string): IPost | undefined {
-    return this._posts().find((post) => post.id === Number(id));
+    const post = this._posts().find((post) => post.id === Number(id));
+    this._currentPostId.set(post?.id ?? undefined);
+    return post;
   }
 
   addPost(newPost: IPost): void {

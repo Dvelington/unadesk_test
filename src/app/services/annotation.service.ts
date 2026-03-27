@@ -10,10 +10,9 @@ export interface IAnotationItem {
 }
 
 export interface ISelection {
-  focusOffset: number;
-  anchorOffset: number;
   text: string;
-  rangeCount: number;
+  start: number;
+  end: number;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -53,9 +53,7 @@ export class PostViewComponent implements AfterViewInit {
 
   selection = this._annotationService.currentSelection;
 
-  hasSelection = computed(
-    () => this.selection() && (this.selection()?.rangeCount ?? 0),
-  );
+  hasSelection = computed(() => this.selection());
 
   dialogOpened = signal(false);
 
@@ -100,8 +98,8 @@ export class PostViewComponent implements AfterViewInit {
     while ((node = walker.nextNode() as Text)) {
       const range = document.createRange();
 
-      range.setStart(node, annotation.selection.anchorOffset);
-      range.setEnd(node, annotation.selection.anchorOffset + text.length);
+      range.setStart(node, annotation.selection.start);
+      range.setEnd(node, annotation.selection.end);
 
       // range.deleteContents();
 
@@ -193,13 +191,44 @@ export class PostViewComponent implements AfterViewInit {
   }
 
   toSnapshot(sel: Selection | null): ISelection | null {
-    if (!sel || sel.rangeCount === 0) return null;
+    if (!sel || sel.rangeCount === 0 || !this.postBody) return null;
+
+    const range = sel.getRangeAt(0);
+    const container = this.postBody.nativeElement;
+
+    const start = this.getGlobalOffset(
+      container,
+      range.startContainer,
+      range.startOffset,
+    );
+    const end = this.getGlobalOffset(
+      container,
+      range.endContainer,
+      range.endOffset,
+    );
 
     return {
-      rangeCount: sel.rangeCount,
-      focusOffset: sel.focusOffset,
-      anchorOffset: sel.anchorOffset,
       text: sel.toString(),
+      start,
+      end,
     };
+  }
+
+  private getGlobalOffset(
+    root: HTMLElement,
+    node: Node,
+    offset: number,
+  ): number {
+    let totalChars = 0;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+
+    let currentNode: Node | null;
+    while ((currentNode = walker.nextNode())) {
+      if (currentNode === node) {
+        return totalChars + offset;
+      }
+      totalChars += (currentNode as Text).length;
+    }
+    return -1; // не нашли
   }
 }

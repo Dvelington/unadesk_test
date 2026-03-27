@@ -1,1 +1,6 @@
-annotation list
+<h2>Annotation list</h2>
+<div class="annotation-list">
+  @for (annotation of annotations(); track annotation.annotation.id) {
+  <div class="chips">{{annotation.selection.text}}</div>
+  }
+</div>
